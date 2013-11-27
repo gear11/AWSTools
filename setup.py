@@ -9,20 +9,16 @@ except ImportError:
    from distutils.core import setup
    extra = {}
 
-def readme():
-   with open("README.md") as f:
-      return f.read()
-
 setup(
     name='G11AWSTools',
     version='0.1.1',
     author=__author__,
-    #author_email='',
+    author_email='andy@gear11.com',
     packages=['g11awstools', 'g11pyutils'],
     url='https://github.com/gear11/G11AWSTools',
     license='GPLv3',
     description='Tools for AWS, built on AWS CLI',
-    long_description=readme(),
+    long_description=open('README.md').read(),
     install_requires=[
     ],
       entry_points = {
