@@ -43,7 +43,7 @@ def main():
     elif len(instance) > 1:
         raise Exception("Found multiple instances for %s: %s", args.image_name, instance)
 
-    cmd_args = ['ssh', '-i %s' % ssh_key, 'ubuntu@%s' % instance[0]["PublicDnsName"]]
+    cmd_args = ['ssh', '-i', ssh_key, 'ubuntu@%s' % instance[0]["PublicDnsName"]]
     LOG.info("Executing '%s'", ' '.join(cmd_args))
     os.execvp(cmd_args[0], cmd_args)
 
