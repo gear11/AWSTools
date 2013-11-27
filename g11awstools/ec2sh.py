@@ -15,23 +15,27 @@ def ec2_instances():
     cmd = 'aws ec2 describe-instances'
     p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     s = p.stdout.read()
-    LOG.info(s)
+    LOG.debug(s)
     rsp = json.loads(s)
     instances = []
     for i in itertools.chain([r["Instances"][0] for r in rsp["Reservations"]]):
         # Assign name
         i["Name"] = i["Tags"][0]["Value"]
         instances.append(i)
-        LOG.info("Name: %s, ID: %s, DNS: %s" % (i["Name"], i["InstanceId"], i["PublicDnsName"]))
+        LOG.debug("Name: %s, ID: %s, DNS: %s" % (i["Name"], i["InstanceId"], i["PublicDnsName"]))
     return IndexedDictList(instances)
 
 def main():
-    logging.basicConfig(format = '%(asctime)-15s %(levelname)s:%(name)s:%(message)s', level=logging.INFO, stream = sys.stderr)
+
 
     parser = argparse.ArgumentParser()
     parser.add_argument("image_name", help="The friendly name of the EC2 image you want to connect to")
     parser.add_argument("-k", "--key", help="Path to your EC2 instance key")
+    parser.add_argument("-d", "--debug", help="Print debug info")
     args = parser.parse_args()
+
+    level = logging.DEBUG if args.debug else logging.INFO
+    logging.basicConfig(format = '%(asctime)-15s %(levelname)s:%(name)s:%(message)s', level=level, stream = sys.stderr)
 
     ssh_key = args.key if args.key else os.getenv("EC2_SSH_KEY")
     if not ssh_key:
