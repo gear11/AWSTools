@@ -23,7 +23,7 @@ setup(
     ],
       entry_points = {
         'console_scripts': [
-            'ec2sh = g11awstools.ec2sh:main',
+            'ec2 = g11awstools.ec2:main',
         ]},
     **extra
 )
