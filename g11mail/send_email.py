@@ -11,7 +11,13 @@ LOG = logging.getLogger("send_email")
 
 
 class Mailer(object):
-    """Encapsulates creating and sending an SMTP message"""
+    """Encapsulates creating and sending an SMTP message.
+
+    Usage:
+        mailer = Mailer('abante.lunarpages.com:587', 'noreply@gear11.com', password)
+        mailer.mail((args.to, args.cc, args.bcc), subject, [ [string_of_html, 'html' ] ])
+        mailer.quit()
+    """
     def __init__(self, server, user, password):
         self.user = user
         self.password = password
@@ -103,7 +109,7 @@ def main():
     LOG.info("Sending '%s' to %s", subject, args.to )
 
     mailer = Mailer(args.server, args.username, args.password)
-    mailer.mail([args.to, args.cc, args.bcc], subject, [ [body, mode ] ])
+    mailer.mail((args.to, args.cc, args.bcc), subject, [ (body, mode) ])
     mailer.quit()
 
 if __name__ == '__main__':
